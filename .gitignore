@@ -1,0 +1,10 @@
+# IDE / Editor
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Exercism temporary files
+.exercism/
