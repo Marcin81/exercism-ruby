@@ -14,17 +14,19 @@ class NameGenerator
 
   LETTER_LIMIT = 26.freeze
   LIMIT = (LETTER_LIMIT * LETTER_LIMIT * 1000).freeze
+  START_NAME = "AA000".freeze
 
-  private_constant :LIMIT, :LETTER_LIMIT
+  private_constant :LIMIT, :LETTER_LIMIT, :START_NAME
 
   def initialize
     @counter = 0
+    @name = START_NAME
   end
 
   def next_name
     raise "Exhausted all names" if counter >= LIMIT
 
-    self.name = index_to_name(counter)
+    self.name = name.next unless counter.zero?
     increase_counter
     self.name
   end
@@ -35,33 +37,12 @@ class NameGenerator
 
   def reset
     self.counter = 0
+    self.name = START_NAME
   end
 
   private
 
   attr_accessor :name, :counter
-
-  def index_to_name(index)
-    letter_index = index / 1000
-
-    [
-      first_letter(letter_index),
-      second_letter(letter_index),
-      three_digits(index)
-    ].join
-  end
-
-  def first_letter(letter_index)
-    ("A".ord + (letter_index / LETTER_LIMIT)).chr
-  end
-
-  def second_letter(letter_index)
-    ("A".ord + (letter_index % LETTER_LIMIT)).chr
-  end
-
-  def three_digits(index)
-    (index % 1000).to_s.rjust(3, "0")
-  end
 end
 
 
